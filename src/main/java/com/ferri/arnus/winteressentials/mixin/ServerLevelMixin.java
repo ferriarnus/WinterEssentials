@@ -1,0 +1,44 @@
+package com.ferri.arnus.winteressentials.mixin;
+
+import java.util.function.Supplier;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.ferri.arnus.winteressentials.block.BlockRegistry;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.storage.WritableLevelData;
+
+@Mixin(ServerLevel.class)
+public abstract class ServerLevelMixin extends Level{
+
+	protected ServerLevelMixin(WritableLevelData p_46450_, ResourceKey<Level> p_46451_, DimensionType p_46452_,
+			Supplier<ProfilerFiller> p_46453_, boolean p_46454_, boolean p_46455_, long p_46456_) {
+		super(p_46450_, p_46451_, p_46452_, p_46453_, p_46454_, p_46455_, p_46456_);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 1))
+	public boolean moreSnow(ServerLevel l, BlockPos pos, BlockState state) {
+		float random = l.random.nextFloat();
+		BlockState snow = Blocks.SNOW.defaultBlockState();
+		BlockState powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState();
+		if (l.getBiome(pos).getBaseTemperature() > 0.0F) {
+			snow = BlockRegistry.MELTINGSNOWBLOCK.get().defaultBlockState();
+		}
+		if (random < 0.5) {
+			return l.setBlockAndUpdate(pos, powdersnow);
+		}else {
+			return l.setBlockAndUpdate(pos, snow);
+		}
+	}
+}

@@ -16,6 +16,7 @@ public class ItemRegistry {
 		ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 	
-	public static final RegistryObject<Item> SNOWSHOES = ITEMS.register("snowshoes", SnowShoes::new);
+	public static final RegistryObject<SnowShoes> SNOWSHOES = ITEMS.register("snowshoes", SnowShoes::new);
+	public static final RegistryObject<Skates> SKATES = ITEMS.register("skates", Skates::new);
 
 }

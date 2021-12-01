@@ -5,7 +5,8 @@
   "refmap": "winteressentials.refmap.json",
   "mixins": [
     "PowderSnowBlockMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ServerLevelMixin"
   ],
   "minVersion": "0.8"
 }
