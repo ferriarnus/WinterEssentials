@@ -3,7 +3,9 @@ package com.ferri.arnus.winteressentials;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.world.level.block.Blocks;
+import com.ferri.arnus.winteressentials.block.BlockRegistry;
+import com.ferri.arnus.winteressentials.item.ItemRegistry;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -16,6 +18,10 @@ public class WinterEssentials {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public WinterEssentials() {
+    	
+    	BlockRegistry.register();
+    	ItemRegistry.register();
+    	
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
@@ -23,10 +29,7 @@ public class WinterEssentials {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    private void setup(final FMLCommonSetupEvent event) {
+        
     }
 }

@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "winteressentials.refmap.json",
   "mixins": [
+    "PowderSnowBlockMixin",
+    "LivingEntityMixin"
   ],
   "minVersion": "0.8"
 }
