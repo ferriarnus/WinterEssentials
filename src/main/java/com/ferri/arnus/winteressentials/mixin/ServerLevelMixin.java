@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -32,6 +34,9 @@ public abstract class ServerLevelMixin extends Level{
 		float random = l.random.nextFloat();
 		BlockState snow = Blocks.SNOW.defaultBlockState();
 		BlockState powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState();
+		if (!Blocks.SNOW.canSurvive(powdersnow, l, pos)) {
+			return false;
+		}
 		if (l.getBiome(pos).getBaseTemperature() > 0.0F) {
 			snow = BlockRegistry.MELTINGSNOWBLOCK.get().defaultBlockState();
 		}
@@ -41,4 +46,15 @@ public abstract class ServerLevelMixin extends Level{
 			return l.setBlockAndUpdate(pos, snow);
 		}
 	}
+	
+	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z"))
+	public boolean allowSnow(Biome biome, LevelReader reader, BlockPos pos) {
+		System.out.println("e");
+		return biome.shouldSnow(reader, pos) || true;
+	}
+	
+//	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;coldEnoughToSnow(Lnet/minecraft/core/BlockPos;)Z"))
+//	public boolean makeSnow(Biome biome, BlockPos pos) {
+//		return biome.coldEnoughToSnow(pos) || true;
+//	}
 }

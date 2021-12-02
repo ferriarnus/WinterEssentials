@@ -8,5 +8,8 @@
     "LivingEntityMixin",
     "ServerLevelMixin"
   ],
+  "client": [
+    "LevelRendererMixin"
+  ],
   "minVersion": "0.8"
 }

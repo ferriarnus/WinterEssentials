@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
-import com.ferri.arnus.winteressentials.data.WEBlockTags;
 import com.ferri.arnus.winteressentials.item.ItemRegistry;
 
 import net.minecraft.core.BlockPos;
@@ -55,7 +54,7 @@ public abstract class LivingEntityMixin extends Entity{
 	}
 	
 	private boolean onSnowBlock() {
-		return this.level.getBlockState(getBlockPosBelowThatAffectsMyMovement()).is(WEBlockTags.SNOWY) || this.level.getBlockState(blockPosition()).is(WEBlockTags.SNOWY);
+		return this.level.getBlockState(getBlockPosBelowThatAffectsMyMovement()).is(BlockTags.SNOW) || this.level.getBlockState(blockPosition()).is(BlockTags.SNOW);
 	}
 	
 	@Inject(at = @At("TAIL"), method = "tryAddSoulSpeed()V", cancellable = true)
