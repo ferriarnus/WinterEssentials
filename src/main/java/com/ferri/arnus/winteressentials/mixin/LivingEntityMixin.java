@@ -2,8 +2,6 @@ package com.ferri.arnus.winteressentials.mixin;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -90,7 +88,7 @@ public abstract class LivingEntityMixin extends Entity{
 	}
 	
 	@Redirect(at = @At(target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F", value = "INVOKE"), method = "travel(Lnet/minecraft/world/phys/Vec3;)V")
-	private float frictionOnSkates(BlockState state, LevelReader world, BlockPos pos, @Nullable Entity entity) {
+	private float frictionOnSkates(BlockState state, LevelReader world, BlockPos pos, Entity entity) {
 		if(entity instanceof LivingEntity living && living.getItemBySlot(EquipmentSlot.FEET).is(ItemRegistry.SKATES.get()) && state.is(BlockTags.ICE)) {
 			return state.getFriction(world, pos, entity) - 0.12F;
 		}

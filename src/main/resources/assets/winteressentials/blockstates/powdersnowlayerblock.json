@@ -1,28 +1,28 @@
 {
   "variants": {
     "layers=1": {
-      "model": "minecraft:block/snow_height2"
+      "model": "winteressentials:block/powdersnowlayerblock_height2"
     },
     "layers=2": {
-      "model": "minecraft:block/snow_height4"
+      "model": "winteressentials:block/powdersnowlayerblock_height4"
     },
     "layers=3": {
-      "model": "minecraft:block/snow_height6"
+      "model": "winteressentials:block/powdersnowlayerblock_height6"
     },
     "layers=4": {
-      "model": "minecraft:block/snow_height8"
+      "model": "winteressentials:block/powdersnowlayerblock_height8"
     },
     "layers=5": {
-      "model": "minecraft:block/snow_height10"
+      "model": "winteressentials:block/powdersnowlayerblock_height10"
     },
     "layers=6": {
-      "model": "minecraft:block/snow_height12"
+      "model": "winteressentials:block/powdersnowlayerblock_height12"
     },
     "layers=7": {
-      "model": "minecraft:block/snow_height14"
+      "model": "winteressentials:block/powdersnowlayerblock_height14"
     },
     "layers=8": {
-      "model": "minecraft:block/snow_block"
+      "model": "minecraft:block/powder_snow"
     }
   }
 }
