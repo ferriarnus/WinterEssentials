@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.ferri.arnus.winteressentials.WinterEssentials;
+import com.ferri.arnus.winteressentials.item.ItemRegistry;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,7 +18,7 @@ public class PowderSnowBlockMixin {
 	
 	@Inject(at = @At("HEAD"), method = "canEntityWalkOnPowderSnow(Lnet/minecraft/world/entity/Entity;)Z", cancellable = true)
 	private static void canEntityWalkOnPowderSnow(Entity p_154256_, CallbackInfoReturnable<Boolean> callback) {
-		if (p_154256_ instanceof LivingEntity living && living.getItemBySlot(EquipmentSlot.FEET).hasTag() && living.getItemBySlot(EquipmentSlot.FEET).getOrCreateTag().contains(WinterEssentials.MODID + ":snowshoe")) {
+		if (p_154256_ instanceof LivingEntity living && living.getItemBySlot(EquipmentSlot.FEET).hasTag() && (living.getItemBySlot(EquipmentSlot.FEET).is(ItemRegistry.SNOWSHOES.get()) || living.getItemBySlot(EquipmentSlot.FEET).getOrCreateTag().contains(WinterEssentials.MODID + ":snowshoe"))) {
 			callback.setReturnValue(true);
 		}
 	}

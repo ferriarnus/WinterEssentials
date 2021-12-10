@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
+import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -38,13 +39,15 @@ public abstract class ServerLevelMixin extends Level{
 		if (!Blocks.SNOW.canSurvive(powdersnow, l, pos) || l.getBiome(pos).getPrecipitation().equals(Biome.Precipitation.NONE)) {
 			return false;
 		}
-		if (l.getBlockState(pos).getBlock() instanceof SnowLayerBlock || l.getBlockState(pos).getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get())) {
-			if (l.getBlockState(pos).getValue(BlockStateProperties.LAYERS) < 3) {
-				return l.setBlockAndUpdate(pos, l.getBlockState(pos).setValue(BlockStateProperties.LAYERS, l.getBlockState(pos).getValue(BlockStateProperties.LAYERS) +1));
+		BlockState blockState = l.getBlockState(pos);
+		if (blockState.getBlock() instanceof SnowLayerBlock || blockState.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get())) {
+			if (blockState.getValue(BlockStateProperties.LAYERS) < 3) {
+				return l.setBlockAndUpdate(pos, blockState.setValue(BlockStateProperties.LAYERS, blockState.getValue(BlockStateProperties.LAYERS) +1));
 			}
 		}
-		if (l.getBiome(pos).getBaseTemperature() > 0.0F) {
+		if (l.getBiome(pos).getTemperature(pos) > 0.15F) {
 			snow = BlockRegistry.MELTINGSNOWBLOCK.get().defaultBlockState();
+			powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState().setValue(PowderSnowLayerBlock.PERSISTENT, false);
 		}
 		if (random < 0.5) {
 			return l.setBlockAndUpdate(pos, powdersnow);
@@ -53,7 +56,7 @@ public abstract class ServerLevelMixin extends Level{
 		}
 	}
 	
-	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z"))
+	//@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z"))
 	public boolean allowSnow(Biome biome, LevelReader reader, BlockPos pos) {
 		return biome.shouldSnow(reader, pos) || true;
 	}

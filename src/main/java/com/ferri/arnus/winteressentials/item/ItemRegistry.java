@@ -18,5 +18,6 @@ public class ItemRegistry {
 	
 	public static final RegistryObject<SnowShoes> SNOWSHOES = ITEMS.register("snowshoes", SnowShoes::new);
 	public static final RegistryObject<Skates> SKATES = ITEMS.register("skates", Skates::new);
+	public static final RegistryObject<SnowPouch> SNOWPOUCH = ITEMS.register("snow_pouch", SnowPouch::new);
 
 }

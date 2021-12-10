@@ -7,10 +7,10 @@
     "PowderSnowBlockMixin",
     "LivingEntityMixin",
     "ServerLevelMixin",
-    "LevelMixin"
+    "BiomeMixin"
   ],
   "client": [
-    "LevelRendererMixin"
+    
   ],
   "minVersion": "0.8.4"
 }

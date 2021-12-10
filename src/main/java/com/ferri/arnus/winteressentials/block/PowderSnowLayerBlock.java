@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -14,19 +15,24 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PowderSnowBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -39,6 +45,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PowderSnowLayerBlock extends PowderSnowBlock{
 	public static final int MAX_HEIGHT = 8;
 	public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
+	public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
 	protected static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 	public static final int HEIGHT_IMPASSABLE = 5;
 	
@@ -46,7 +53,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 		super(Properties.of(Material.TOP_SNOW).randomTicks().strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW).isViewBlocking((p_187417_, p_187418_, p_187419_) -> {
 			return p_187417_.getValue(PowderSnowLayerBlock.LAYERS) >= 8;
 		}));
-		this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(PERSISTENT, true).setValue(LAYERS, Integer.valueOf(1)));
 	}
 	
 	@Override
@@ -113,7 +120,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 		BlockState blockstate = p_56603_.getBlockState(p_56604_.below());
 		if (!blockstate.is(Blocks.ICE) && !blockstate.is(Blocks.PACKED_ICE) && !blockstate.is(Blocks.BARRIER)) {
 			if (!blockstate.is(Blocks.HONEY_BLOCK) && !blockstate.is(Blocks.SOUL_SAND)) {
-				return Block.isFaceFull(blockstate.getCollisionShape(p_56603_, p_56604_.below()), Direction.UP) || blockstate.is(this) && blockstate.getValue(LAYERS) == 8;
+				return Block.isFaceFull(blockstate.getCollisionShape(p_56603_, p_56604_.below()), Direction.UP) || blockstate.is(this) && blockstate.getValue(LAYERS) == 8 || blockstate.is(Blocks.POWDER_SNOW);
 			} else {
 				return true;
 			}
@@ -147,7 +154,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 		BlockState blockstate = p_56587_.getLevel().getBlockState(p_56587_.getClickedPos());
 		if (blockstate.is(this)) {
 			int i = blockstate.getValue(LAYERS);
-			return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
+			return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1))).setValue(PERSISTENT, true);
 		} else {
 			return super.getStateForPlacement(p_56587_);
 		}
@@ -155,7 +162,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 	
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_56613_) {
-		p_56613_.add(LAYERS);
+		p_56613_.add(LAYERS).add(PERSISTENT);
 	}
 	
 	@Override
@@ -180,6 +187,36 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 				}
 				
 				p_154266_.setSharedFlagOnFire(false);
+			}
+		}
+	}
+	
+	@Override
+	public ItemStack pickupBlock(LevelAccessor p_154281_, BlockPos p_154282_, BlockState p_154283_) {
+		if (p_154283_.getValue(LAYERS) == 8) {
+			p_154281_.setBlock(p_154282_, Blocks.AIR.defaultBlockState(), 11);
+			if (!p_154281_.isClientSide()) {
+				p_154281_.levelEvent(2001, p_154282_, Block.getId(p_154283_));
+			}
+			
+			return new ItemStack(Items.POWDER_SNOW_BUCKET);
+		}
+		return ItemStack.EMPTY;
+	}
+	
+	@Override
+	public void randomTick(BlockState p_56615_, ServerLevel p_56616_, BlockPos p_56617_, Random p_56618_) {
+		if (p_56616_.getBrightness(LightLayer.BLOCK, p_56617_) > 11) {
+			dropResources(p_56615_, p_56616_, p_56617_);
+			p_56616_.removeBlock(p_56617_, false);
+			return;
+		}
+		if (p_56616_.getBiome(p_56617_).getTemperature(p_56617_) > 0.15F && !p_56616_.isRainingAt(p_56617_) && !p_56615_.getValue(PERSISTENT)) {
+			if (p_56615_.getValue(SnowLayerBlock.LAYERS) == 1) {
+				p_56616_.removeBlock(p_56617_, false);
+			}else {
+				BlockState state = p_56615_.setValue(SnowLayerBlock.LAYERS, p_56615_.getValue(SnowLayerBlock.LAYERS)-1);
+				p_56616_.setBlockAndUpdate(p_56617_, state);
 			}
 		}
 	}
