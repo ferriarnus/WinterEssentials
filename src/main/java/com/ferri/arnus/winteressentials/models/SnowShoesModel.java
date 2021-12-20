@@ -34,24 +34,24 @@ public class SnowShoesModel<T extends LivingEntity> extends HumanoidModel<T> {
 		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.9F, 12.0F + 0.0F, 0.0F));
 		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.9F, 12.0F + 0.0F, 0.0F));
 		
-		PartDefinition rightshoe = right_leg.addOrReplaceChild("rightshoe", CubeListBuilder.create().texOffs(18, 26).addBox(-4.0F, -1.0F, 6.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(12, 27).addBox(-6.0F, -1.0F, 2.0F, 8.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(12, 28).addBox(-6.0F, -1.0F, -4.0F, 8.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 28).addBox(-4.0F, -1.0F, -7.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 28).addBox(-5.0F, -1.0F, -6.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 22).addBox(-7.0F, -1.0F, -3.0F, 10.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 25).addBox(-5.0F, -1.0F, 4.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(14, 19).addBox(-5.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 12.0F, 0.0F));
-
-		PartDefinition leftshoe = left_leg.addOrReplaceChild("leftshoe", CubeListBuilder.create().texOffs(18, 26).addBox(-4.0F, -1.0F, 6.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(12, 27).addBox(-6.0F, -1.0F, 2.0F, 8.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(12, 28).addBox(-6.0F, -1.0F, -4.0F, 8.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 28).addBox(-4.0F, -1.0F, -7.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 28).addBox(-5.0F, -1.0F, -6.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 22).addBox(-7.0F, -1.0F, -3.0F, 10.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 25).addBox(-5.0F, -1.0F, 4.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(14, 19).addBox(-5.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 12.0F, 0.0F));
-
+		PartDefinition rightshoe = right_leg.addOrReplaceChild("rightshoe", CubeListBuilder.create().texOffs(1, 0).addBox(-4.0F, 0.0F, 6.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(41, 28).addBox(-6.0F, 0.0F, 2.0F, 8.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 7).addBox(-6.0F, 0.0F, -4.0F, 8.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(1, 0).addBox(-4.0F, 0.0F, -7.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 2).addBox(-5.0F, 0.0F, -6.0F, 6.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(29, 8).addBox(-7.0F, 0.0F, -3.0F, 10.0F, 0.0F, 5.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 2).addBox(-5.0F, 0.0F, 4.0F, 6.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(16, 21).addBox(-5.0F, -5.0F, -3.0F, 6.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 12.0F, 0.0F));
+		
+		PartDefinition leftshoe = left_leg.addOrReplaceChild("leftshoe", CubeListBuilder.create().texOffs(1, 0).addBox(-4.0F, 0.0F, 6.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(41, 28).addBox(-6.0F, 0.0F, 2.0F, 8.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 7).addBox(-6.0F, 0.0F, -4.0F, 8.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(1, 0).addBox(-4.0F, 0.0F, -7.0F, 4.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 2).addBox(-5.0F, 0.0F, -6.0F, 6.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(29, 8).addBox(-7.0F, 0.0F, -3.0F, 10.0F, 0.0F, 5.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 2).addBox(-5.0F, 0.0F, 4.0F, 6.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(16, 21).addBox(-5.0F, -5.0F, -3.0F, 6.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 12.0F, 0.0F));
+		
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
