@@ -6,11 +6,14 @@
   "mixins": [
     "PowderSnowBlockMixin",
     "LivingEntityMixin",
-    "ServerLevelMixin",
-    "BiomeMixin"
+    "ServerLevelMixin"
+    //"BiomeMixin"
   ],
   "client": [
-    
+    "BiomeMixin"
+  ],
+  "server": [
+    "ServerBiomeMixin"
   ],
   "minVersion": "0.8.4"
 }

@@ -15,7 +15,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0'
+version = '0.1'
 group = 'com.ferri.arnus.winteressentials' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'winteressentials'
 
@@ -160,7 +160,7 @@ jar {
                 "Specification-Vendor"    : "examplemodsareus",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Version"  : "${version}",
                 "Implementation-Vendor"   : "examplemodsareus",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])

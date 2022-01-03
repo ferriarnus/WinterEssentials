@@ -26,14 +26,17 @@ public abstract class BiomeMixin {
 	
 	public boolean warmEnoughToRain(BlockPos p_198907_) {
 		if (EffectiveSide.get().isClient()) {
-			ClientLevel level = Minecraft.getInstance().level;
+            ClientLevel level = Minecraft.getInstance().level;
 			if (level == null) {
 				return this.getTemperature(p_198907_) >= 0.15F;
 			}
-			return this.getTemperature(p_198907_) >= 0.15F && new Random(WinterEssentials.seed & level.getGameTime()/200 *123).nextFloat() < 0.9;
+			return this.getTemperature(p_198907_) >= 0.15F && new Random(WinterEssentials.seed & level.getGameTime()/2000 *123).nextFloat() < 0.6;
 		}
 		else {
-			return this.getTemperature(p_198907_) >= 0.15F && new Random(ServerLifecycleHooks.getCurrentServer().getWorldData().worldGenSettings().seed() & ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getGameTime()/200 * 123).nextFloat() < 0.9;
+			return this.getTemperature(p_198907_) >= 0.15F && new Random(ServerLifecycleHooks.getCurrentServer()
+					.getWorldData().worldGenSettings().seed()
+					& ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getGameTime() / 2000 * 123)
+							.nextFloat() < 0.6;
 		}
 	}
 	

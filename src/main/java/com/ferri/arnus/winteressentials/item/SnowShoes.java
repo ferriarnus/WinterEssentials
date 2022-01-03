@@ -17,7 +17,7 @@ import net.minecraftforge.client.IItemRenderProperties;
 public class SnowShoes extends ArmorItem{
 
 	public SnowShoes() {
-		super(WEArmorMaterials.SNOWSHOES, EquipmentSlot.FEET, new Properties().tab(CreativeModeTab.TAB_COMBAT));
+		super(WEArmorMaterials.SNOWSHOES, EquipmentSlot.FEET, new Properties().tab(ItemRegistry.WINTERTAB));
 	}
 	
 	@Override

@@ -24,14 +24,13 @@ public class SnowPouch extends Item{
 	private int maxSnow = 8*32;
 	
 	public SnowPouch() {
-		super(new Properties().stacksTo(1));
+		super(new Properties().stacksTo(1).tab(ItemRegistry.WINTERTAB));
 	}
 	
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		BlockState blockState = context.getLevel().getBlockState(context.getClickedPos());
 		CompoundTag tag = context.getPlayer().getItemInHand(context.getHand()).getOrCreateTag();
-		System.out.println(BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos().above()));
 		if (blockState.is(BlockRegistry.POWDERLAYERBLOCK.get()) && context.getPlayer().isCrouching() && context.getLevel().getBlockState(context.getClickedPos()).getValue(PowderSnowLayerBlock.LAYERS) < 8) {
 			if (tag.contains("winteressentials:powdersnow")) {
 				int current = tag.getInt("winteressentials:powdersnow");

@@ -211,7 +211,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 			p_56616_.removeBlock(p_56617_, false);
 			return;
 		}
-		if (p_56616_.getBiome(p_56617_).getTemperature(p_56617_) > 0.15F && !p_56616_.isRainingAt(p_56617_) && !p_56615_.getValue(PERSISTENT)) {
+		if ( !p_56616_.getBiome(p_56617_).coldEnoughToSnow(p_56617_) && !p_56615_.getValue(PERSISTENT)) {
 			if (p_56615_.getValue(SnowLayerBlock.LAYERS) == 1) {
 				p_56616_.removeBlock(p_56617_, false);
 			}else {

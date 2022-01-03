@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "winteressentials:snow_pouch"
+    ]
+  },
+  "criteria": {
+    "has_snow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+             "item": "minecraft:powder_snow_bucket"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "winteressentials:snow_pouch"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_snow",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,6 +1,7 @@
 package com.ferri.arnus.winteressentials.block;
 
 import com.ferri.arnus.winteressentials.WinterEssentials;
+import com.ferri.arnus.winteressentials.item.ItemRegistry;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,10 +23,10 @@ public class BlockRegistry {
 	}
 	
 	public static final RegistryObject<PowderSnowLayerBlock> POWDERLAYERBLOCK = BLOCKS.register("powdersnowlayerblock", PowderSnowLayerBlock::new);
-	public static final RegistryObject<Item> POWDERLAYER = ITEMS.register("powdersnowlayerblock", () -> new BlockItem(POWDERLAYERBLOCK.get(), new Properties()));
+	public static final RegistryObject<Item> POWDERLAYER = ITEMS.register("powdersnowlayerblock", () -> new BlockItem(POWDERLAYERBLOCK.get(), new Properties().tab(ItemRegistry.WINTERTAB)));
 	
 	public static final RegistryObject<MeltingSnow> MELTINGSNOWBLOCK = BLOCKS.register("meltingsnow", MeltingSnow::new);
-	public static final RegistryObject<Item> MELTINGSNOW = ITEMS.register("meltingsnow", () -> new BlockItem(MELTINGSNOWBLOCK.get(), new Properties()));
+	public static final RegistryObject<Item> MELTINGSNOW = ITEMS.register("meltingsnow", () -> new BlockItem(MELTINGSNOWBLOCK.get(), new Properties().tab(ItemRegistry.WINTERTAB)));
 
 
 }

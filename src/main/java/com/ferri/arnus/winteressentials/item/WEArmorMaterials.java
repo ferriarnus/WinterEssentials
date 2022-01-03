@@ -2,6 +2,8 @@ package com.ferri.arnus.winteressentials.item;
 
 import java.util.function.Supplier;
 
+import com.ferri.arnus.winteressentials.WinterEssentials;
+
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -11,7 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public enum WEArmorMaterials implements ArmorMaterial{
-	SNOWSHOES("snowshoe", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.of(Items.LEATHER));
+	SNOWSHOES(WinterEssentials.MODID + ":snowshoe", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.of(Items.LEATHER));
 	
 	private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
 	private final String name;
