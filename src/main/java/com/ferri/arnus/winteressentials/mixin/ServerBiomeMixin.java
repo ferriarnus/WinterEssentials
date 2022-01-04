@@ -5,6 +5,8 @@ import java.util.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -24,8 +26,8 @@ public abstract class ServerBiomeMixin {
 	public boolean warmEnoughToRain(BlockPos p_198907_) {	
 		return this.getTemperature(p_198907_) >= 0.15F && new Random(ServerLifecycleHooks.getCurrentServer()
 				.getWorldData().worldGenSettings().seed()
-				& ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getGameTime() / 2000 * 123)
-				.nextFloat() < 0.8;
+				& ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getGameTime() / 1000 * 1234)
+				.nextFloat() < 0.6;
 		
 	}
 	
@@ -37,4 +39,8 @@ public abstract class ServerBiomeMixin {
 		return this.climateSettings.precipitation;
 	}
 	
+	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;warmEnoughToRain(Lnet/minecraft/core/BlockPos;)Z"), method = "shouldFreeze(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Z)Z")
+	public boolean freeze(Biome b,BlockPos pos) {
+		return this.getTemperature(pos) >= 0.15F;
+	}
 }

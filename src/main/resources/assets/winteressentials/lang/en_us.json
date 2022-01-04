@@ -1,2 +1,11 @@
 {
+  "item.winteressentials.snowshoe": "Snowshoe",
+  "item.winteressentials.snowshoes": "Snowshoes",
+  "item.winteressentials.skates": "Skates",
+  "item.winteressentials.snow_pouch": "Snow Pouch",
+  "block.winteressentials.powdersnowlayerblock": "Powdered Snowlayer",
+  "block.winteressentials.meltingsnow": "Melting Snow",
+  "itemGroup.winteressentials" : "Winter Essentials",
+  "component.winteressentials.issnowshoe": "Has the Snowshoe upgrade",
+  "component.winteressentials.snowshoeinfo": "Can be applied to any boots in the smithing table"
 }
