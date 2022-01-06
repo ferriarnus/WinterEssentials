@@ -35,7 +35,7 @@ public class SnowShoeUpgradeRecipe extends UpgradeRecipe{
 		if (p_44002_.getItem(0).is(ItemRegistry.SKATES.get()) || p_44002_.getItem(0).is(ItemRegistry.SNOWSHOES.get())) {
 			return false;
 		}
-		if (!p_44002_.getItem(1).is(ItemRegistry.SNOWSHOE.get()) || p_44002_.getItem(1).getCount() < 2 ) {
+		if (!p_44002_.getItem(1).is(ItemRegistry.SNOWSHOE.get())) {
 			return false;
 		}
 		return true;
@@ -71,14 +71,14 @@ public class SnowShoeUpgradeRecipe extends UpgradeRecipe{
 		@Override
 		public SnowShoeUpgradeRecipe fromJson(ResourceLocation p_44103_, JsonObject p_44104_) {
 			ItemStack s = new ItemStack(ItemRegistry.SNOWSHOE.get());
-			s.setCount(2);
+			s.setCount(1);
 			return new SnowShoeUpgradeRecipe(p_44103_, Ingredient.of(Items.LEATHER_BOOTS), Ingredient.of(s), new ItemStack(ItemRegistry.SNOWSHOES.get()));
 		}
 
 		@Override
 		public SnowShoeUpgradeRecipe fromNetwork(ResourceLocation p_44105_, FriendlyByteBuf p_44106_) {
 			ItemStack s = new ItemStack(ItemRegistry.SNOWSHOE.get());
-			s.setCount(2);
+			s.setCount(1);
 			return new SnowShoeUpgradeRecipe(p_44105_, Ingredient.of(Items.LEATHER_BOOTS), Ingredient.of(s), new ItemStack(ItemRegistry.SNOWSHOES.get()));
 		}
 

@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.WritableLevelData;
 
 @Mixin(ServerLevel.class)
@@ -36,11 +35,10 @@ public abstract class ServerLevelMixin extends Level{
 		float random = l.random.nextFloat();
 		BlockState snow = Blocks.SNOW.defaultBlockState();
 		BlockState powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState();
-		BlockPos blockpos2 = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(l.getChunkAt(pos).getPos().getMinBlockX(), 0, l.getChunkAt(pos).getPos().getMinBlockZ(), 15));
-		BlockState hack = l.getBlockState(blockpos2);
-		if (hack.getBlock() instanceof SnowLayerBlock || hack.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get())) {
-			if (hack.getValue(BlockStateProperties.LAYERS) < 3) {
-				return l.setBlockAndUpdate(blockpos2, hack.setValue(BlockStateProperties.LAYERS, hack.getValue(BlockStateProperties.LAYERS) +1));
+		BlockState s = l.getBlockState(pos);
+		if (s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get())) {
+			if (s.getValue(BlockStateProperties.LAYERS) < 3) {
+				return l.setBlockAndUpdate(pos, s.setValue(BlockStateProperties.LAYERS, s.getValue(BlockStateProperties.LAYERS) +1));
 			}
 		}
 		if (!Blocks.SNOW.canSurvive(powdersnow, l, pos) || l.getBiome(pos).getPrecipitation().equals(Biome.Precipitation.NONE)) {

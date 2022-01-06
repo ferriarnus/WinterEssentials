@@ -4,6 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.ferri.arnus.winteressentials.WinterEssentials;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -167,8 +169,8 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 	
 	@Override
 	public void entityInside(BlockState p_154263_, Level p_154264_, BlockPos p_154265_, Entity p_154266_) {
-		if (!(p_154266_ instanceof LivingEntity) || ((p_154266_.getFeetBlockState().is(this) && (p_154266_.getY() - p_154265_.getY()) < (p_154263_.getValue(LAYERS)) * 0.125D ))) {
-			if (!(p_154266_ instanceof LivingEntity) || p_154266_ instanceof LivingEntity living && !living.getItemBySlot(EquipmentSlot.FEET).is(ItemTags.FREEZE_IMMUNE_WEARABLES)) {
+		if (!(p_154266_ instanceof LivingEntity) || ((p_154266_.getFeetBlockState().is(this) && (p_154266_.getY() - p_154265_.getY()) < (p_154263_.getValue(LAYERS)) * 0.125D))) {
+			if (!(p_154266_ instanceof LivingEntity) || p_154266_ instanceof LivingEntity living && (!living.getItemBySlot(EquipmentSlot.FEET).is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !living.getItemBySlot(EquipmentSlot.FEET).getOrCreateTag().contains(WinterEssentials.MODID + ":snowshoe"))) {
 				p_154266_.makeStuckInBlock(p_154263_, new Vec3((double)0.9F, 1.5D, (double)0.9F));
 			} 
 			if (p_154264_.isClientSide) {

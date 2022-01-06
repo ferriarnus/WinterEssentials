@@ -5,6 +5,7 @@ import java.util.List;
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -120,7 +121,9 @@ public class SnowPouch extends Item{
 		public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) {
 			if (p_41421_.getOrCreateTag().contains("winteressentials:powdersnow")) {
 				String s = p_41421_.getOrCreateTag().getInt("winteressentials:powdersnow") + "";
-				p_41423_.add(1,new TextComponent(s));
+				TextComponent compound = new TextComponent(s + " Layers");
+				compound.withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC);
+				p_41423_.add(1,compound);
 			}
 			super.appendHoverText(p_41421_, p_41422_, p_41423_, p_41424_);
 		}
