@@ -66,7 +66,7 @@ public abstract class BiomeMixin {
 	
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"), method = "shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z")
 	public boolean dosnow(BlockState s) {
-		return s.isAir() || ((s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get()) && WinterConfig.STACKSNOW.get()));
+		return s.isAir() || s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get());
 	}
 	
 }

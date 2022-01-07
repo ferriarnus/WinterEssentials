@@ -8,11 +8,11 @@ public class WinterConfig {
 	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	public static ForgeConfigSpec SPEC;
 	public static ConfigValue<Boolean> MORESNOW;
-	public static ConfigValue<Boolean> STACKSNOW;
+	public static ConfigValue<Integer> STACKSNOW;
 	
 	static {
 		MORESNOW = BUILDER.define("Allow snowing in all biomes", true);
-		STACKSNOW = BUILDER.define("Allow stacking of snow", true);
+		STACKSNOW = BUILDER.define("Snowstacking height", 3);
 		SPEC = BUILDER.build();
 	}
 }

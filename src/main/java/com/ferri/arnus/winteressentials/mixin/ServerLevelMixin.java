@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
+import com.ferri.arnus.winteressentials.config.WinterConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -37,7 +38,7 @@ public abstract class ServerLevelMixin extends Level{
 		BlockState powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState();
 		BlockState s = l.getBlockState(pos);
 		if (s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get())) {
-			if (s.getValue(BlockStateProperties.LAYERS) < 3) {
+			if (s.getValue(BlockStateProperties.LAYERS) < WinterConfig.STACKSNOW.get()) {
 				return l.setBlockAndUpdate(pos, s.setValue(BlockStateProperties.LAYERS, s.getValue(BlockStateProperties.LAYERS) +1));
 			}
 		}
