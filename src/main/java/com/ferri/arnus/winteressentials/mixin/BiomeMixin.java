@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.ferri.arnus.winteressentials.WinterEssentials;
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
+import com.ferri.arnus.winteressentials.config.WinterConfig;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -32,6 +33,9 @@ public abstract class BiomeMixin {
 	
 	@Overwrite
 	public boolean warmEnoughToRain(BlockPos p_198907_) {
+		if (!WinterConfig.MORESNOW.get()) {
+			return this.getTemperature(p_198907_) >= 0.15F;
+		}
 		if (EffectiveSide.get().isClient()) {
             ClientLevel level = Minecraft.getInstance().level;
 			if (level == null) {
@@ -62,7 +66,7 @@ public abstract class BiomeMixin {
 	
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"), method = "shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z")
 	public boolean dosnow(BlockState s) {
-		return s.isAir() || s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get());
+		return s.isAir() || ((s.getBlock() instanceof SnowLayerBlock || s.getBlock().equals(BlockRegistry.POWDERLAYERBLOCK.get()) && WinterConfig.STACKSNOW.get()));
 	}
 	
 }

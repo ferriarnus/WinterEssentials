@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
+import com.ferri.arnus.winteressentials.config.WinterConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -27,7 +28,10 @@ public abstract class ServerBiomeMixin {
 	abstract float getTemperature(BlockPos pos);
 	
 	@Overwrite
-	public boolean warmEnoughToRain(BlockPos p_198907_) {	
+	public boolean warmEnoughToRain(BlockPos p_198907_) {
+		if (!WinterConfig.MORESNOW.get()) {
+			return this.getTemperature(p_198907_) >= 0.15F;
+		}
 		return this.getTemperature(p_198907_) >= 0.15F && new Random(ServerLifecycleHooks.getCurrentServer()
 				.getWorldData().worldGenSettings().seed()
 				& ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getGameTime() / 1000 * 1234)

@@ -1,6 +1,7 @@
 package com.ferri.arnus.winteressentials;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
+import com.ferri.arnus.winteressentials.config.WinterConfig;
 import com.ferri.arnus.winteressentials.feature.FeatureRegistry;
 import com.ferri.arnus.winteressentials.item.ItemRegistry;
 import com.ferri.arnus.winteressentials.network.SeedPacket;
@@ -12,7 +13,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.PacketDistributor;
@@ -35,6 +38,7 @@ public class WinterEssentials {
     	modEventBus.addListener(this::setup);
     	forgeBus.addListener(this::connect);
     	forgeBus.addListener(this::biomeModification);
+    	ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WinterConfig.SPEC); 
 
     }
 
