@@ -4,10 +4,11 @@ import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.config.WinterConfig;
 import com.ferri.arnus.winteressentials.feature.FeatureRegistry;
 import com.ferri.arnus.winteressentials.item.ItemRegistry;
-import com.ferri.arnus.winteressentials.network.SeedPacket;
+import com.ferri.arnus.winteressentials.network.SnowPacket;
 import com.ferri.arnus.winteressentials.network.WinterChannel;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -24,7 +25,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 @Mod(WinterEssentials.MODID)
 public class WinterEssentials {
     public static final String MODID = "winteressentials";
-    public static Long seed;
+    public static Long seed = 123456789L;
     
     public WinterEssentials() {
     	
@@ -38,7 +39,7 @@ public class WinterEssentials {
     	modEventBus.addListener(this::setup);
     	forgeBus.addListener(this::connect);
     	forgeBus.addListener(this::biomeModification);
-    	ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WinterConfig.SPEC); 
+    	ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, WinterConfig.SPEC); 
 
     }
 
@@ -52,7 +53,7 @@ public class WinterEssentials {
     
     public void connect(PlayerLoggedInEvent event) {
     	if (event.getPlayer() instanceof ServerPlayer player) {
-        	WinterChannel.INSTANCE.send(PacketDistributor.PLAYER.with(()-> player), new SeedPacket(ServerLifecycleHooks.getCurrentServer().getWorldData().worldGenSettings().seed()));
+        	WinterChannel.INSTANCE.send(PacketDistributor.PLAYER.with(()-> player), new SnowPacket(((LevelExtension) ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD)).isSnowing()));
     	}
     }
     

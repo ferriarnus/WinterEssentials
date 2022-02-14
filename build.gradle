@@ -15,16 +15,19 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.1'
-group = 'com.ferri.arnus.winteressentials' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'winteressentials'
-
 mixin {
     // MixinGradle Settings
     config "mixins.winteressentials.json"
+    config "mixins.winteressentials.snowrealmagic.json"
     
     add sourceSets.main, 'mixins.winteressentials.refmap.json'
 }
+
+version = '1.1.1'
+group = 'com.ferri.arnus.winteressentials' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'winteressentials'
+
+
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -131,13 +134,16 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18-38.0.8'
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.20'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -152,6 +158,9 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    compileOnly fg.deobf("curse.maven:snowrealmagic-308663:3592132")
+    compileOnly fg.deobf("curse.maven:kiwi-303657:3549979")
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

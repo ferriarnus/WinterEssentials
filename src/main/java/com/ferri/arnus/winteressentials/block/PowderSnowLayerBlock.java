@@ -4,12 +4,14 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.ferri.arnus.winteressentials.LevelExtension;
 import com.ferri.arnus.winteressentials.WinterEssentials;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -93,7 +95,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 	            }
 
 	            boolean flag = entity instanceof FallingBlockEntity;
-	            if (flag || canEntityWalkOnPowderSnow(entity) && !p_154288_.isDescending()) { //p_154288_.isAbove(SHAPE_BY_LAYER[p_154285_.getValue(LAYERS) - 1], p_154287_, false) &&
+	            if (flag || canEntityWalkOnPowderSnow(entity) && !p_154288_.isDescending() || EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS.contains(entity.getType())) { //p_154288_.isAbove(SHAPE_BY_LAYER[p_154285_.getValue(LAYERS) - 1], p_154287_, false) &&
 	               return SHAPE_BY_LAYER[p_154285_.getValue(LAYERS) - 1];
 	            }
 	         }
@@ -169,15 +171,17 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 	
 	@Override
 	public void entityInside(BlockState p_154263_, Level p_154264_, BlockPos p_154265_, Entity p_154266_) {
-		if (!(p_154266_ instanceof LivingEntity) || ((p_154266_.getFeetBlockState().is(this) && (p_154266_.getY() - p_154265_.getY()) < (p_154263_.getValue(LAYERS)) * 0.125D))) {
-			if (!(p_154266_ instanceof LivingEntity) || p_154266_ instanceof LivingEntity living && (!living.getItemBySlot(EquipmentSlot.FEET).is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !living.getItemBySlot(EquipmentSlot.FEET).getOrCreateTag().contains(WinterEssentials.MODID + ":snowshoe"))) {
-				p_154266_.makeStuckInBlock(p_154263_, new Vec3((double)0.9F, 1.5D, (double)0.9F));
-			} 
-			if (p_154264_.isClientSide) {
-				Random random = p_154264_.getRandom();
-				boolean flag = p_154266_.xOld != p_154266_.getX() || p_154266_.zOld != p_154266_.getZ();
-				if (flag && random.nextBoolean()) {
-					p_154264_.addParticle(ParticleTypes.SNOWFLAKE, p_154266_.getX(), (double)(p_154265_.getY() + 1), p_154266_.getZ(), (double)(Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F), (double)0.05F, (double)(Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F));
+		if (!EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS.contains(p_154266_.getType())) {
+			if (!(p_154266_ instanceof LivingEntity) || ((p_154266_.getFeetBlockState().is(this) && (p_154266_.getY() - p_154265_.getY()) < (p_154263_.getValue(LAYERS)) * 0.125D))) {
+				if (!(p_154266_ instanceof LivingEntity) || p_154266_ instanceof LivingEntity living && (!living.getItemBySlot(EquipmentSlot.FEET).is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !living.getItemBySlot(EquipmentSlot.FEET).getOrCreateTag().contains(WinterEssentials.MODID + ":snowshoe"))) {
+					p_154266_.makeStuckInBlock(p_154263_, new Vec3((double)0.9F, 1.5D, (double)0.9F));
+				} 
+				if (p_154264_.isClientSide) {
+					Random random = p_154264_.getRandom();
+					boolean flag = p_154266_.xOld != p_154266_.getX() || p_154266_.zOld != p_154266_.getZ();
+					if (flag && random.nextBoolean()) {
+						p_154264_.addParticle(ParticleTypes.SNOWFLAKE, p_154266_.getX(), (double)(p_154265_.getY() + 1), p_154266_.getZ(), (double)(Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F), (double)0.05F, (double)(Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F));
+					}
 				}
 			}
 		}
@@ -213,7 +217,7 @@ public class PowderSnowLayerBlock extends PowderSnowBlock{
 			p_56616_.removeBlock(p_56617_, false);
 			return;
 		}
-		if ( !p_56616_.getBiome(p_56617_).coldEnoughToSnow(p_56617_) && !p_56615_.getValue(PERSISTENT)) {
+		if ( !((LevelExtension) p_56616_).isSnowing() && !p_56615_.getValue(PERSISTENT)) {
 			if (p_56615_.getValue(SnowLayerBlock.LAYERS) == 1) {
 				p_56616_.removeBlock(p_56617_, false);
 			}else {

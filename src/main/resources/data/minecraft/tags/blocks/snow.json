@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-   "winteressentials:powdersnowlayerblock"
+   "winteressentials:powdersnowlayerblock",
+   "winteressentials:meltingsnow"
   ]
 }

@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -41,6 +40,9 @@ public abstract class LivingEntityMixin extends Entity{
 	@Unique
 	private static final UUID SPEED_MODIFIER_SNOW_SPEED_UUID = UUID.fromString("146b38dd-8d48-460e-8d26-c33c3ed022af");
 	
+	@Unique
+	private static final UUID SPEED_MODIFIER_ICE_SPEED_UUID = UUID.fromString("530c11c4-22b0-43da-9805-32decc530a82");
+	
 	@Shadow
 	public abstract ItemStack getItemBySlot(EquipmentSlot p_21127_);
 	
@@ -55,6 +57,10 @@ public abstract class LivingEntityMixin extends Entity{
 		return this.level.getBlockState(getBlockPosBelowThatAffectsMyMovement()).is(BlockTags.SNOW) || this.level.getBlockState(blockPosition()).is(BlockTags.SNOW);
 	}
 	
+	protected boolean onIceBlock() {
+	      return this.level.getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).is(BlockTags.ICE);
+	   }
+	
 	@Inject(at = @At("TAIL"), method = "tryAddSoulSpeed()V", cancellable = true)
 	private void tryAddSnowSpeed(CallbackInfo callback) {
 		if (!this.getBlockStateOn().isAir()) {
@@ -66,6 +72,14 @@ public abstract class LivingEntityMixin extends Entity{
 				 
 				 attributeinstance.addTransientModifier(new AttributeModifier(SPEED_MODIFIER_SNOW_SPEED_UUID, "Snow speed boost", (double)(0.03F * (1.1F)), AttributeModifier.Operation.ADDITION));
 			 }
+			 if (this.onIceBlock() && this.getItemBySlot(EquipmentSlot.FEET).is(ItemRegistry.SKATES.get())) {
+				 AttributeInstance attributeinstance = getAttribute(Attributes.MOVEMENT_SPEED);
+				 if (attributeinstance == null) {
+					 return;
+				 }
+				 
+				 attributeinstance.addTransientModifier(new AttributeModifier(SPEED_MODIFIER_ICE_SPEED_UUID, "Ice speed boost", (double)(0.03F * (1.3F)), AttributeModifier.Operation.ADDITION));
+			 }
 		}
 	}
 	
@@ -76,7 +90,9 @@ public abstract class LivingEntityMixin extends Entity{
 			if (attributeinstance.getModifier(SPEED_MODIFIER_SNOW_SPEED_UUID) != null) {
 				attributeinstance.removeModifier(SPEED_MODIFIER_SNOW_SPEED_UUID);
 			}
-			
+			if (attributeinstance.getModifier(SPEED_MODIFIER_ICE_SPEED_UUID) != null) {
+				attributeinstance.removeModifier(SPEED_MODIFIER_ICE_SPEED_UUID);
+			}
 		}
 	}
 	
@@ -87,7 +103,7 @@ public abstract class LivingEntityMixin extends Entity{
 	      }
 	}
 	
-	@Redirect(at = @At(target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F", value = "INVOKE"), method = "travel(Lnet/minecraft/world/phys/Vec3;)V")
+	//@Redirect(at = @At(target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F", value = "INVOKE"), method = "travel(Lnet/minecraft/world/phys/Vec3;)V")
 	private float frictionOnSkates(BlockState state, LevelReader world, BlockPos pos, Entity entity) {
 		if(entity instanceof LivingEntity living && living.getItemBySlot(EquipmentSlot.FEET).is(ItemRegistry.SKATES.get()) && state.is(BlockTags.ICE)) {
 			return state.getFriction(world, pos, entity) - 0.12F;

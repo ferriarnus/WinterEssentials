@@ -2,14 +2,10 @@
   "required": true,
   "package": "com.ferri.arnus.winteressentials.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "com.ferri.arnus.winteressentials.compat.snowrealmagic.SnowRealMagicPlugin",
   "refmap": "mixins.winteressentials.refmap.json",
   "mixins": [
-    "PowderSnowBlockMixin",
-    "LivingEntityMixin",
-    "ServerLevelMixin",
-    "SnowAndFreezeFeatureMixin",
-    "LevelMixin",
-    "LevelRendererMixin"
+    "HooksMixin"
   ],
   "minVersion": "0.8.4"
 }

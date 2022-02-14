@@ -8,22 +8,22 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
+import com.ferri.arnus.winteressentials.config.WinterConfig;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.SnowAndFreezeFeature;
+import snownee.snow.Hooks;
 
-@Mixin(SnowAndFreezeFeature.class)
-public class SnowAndFreezeFeatureMixin {
-	
+@Mixin(Hooks.class)
+public class HooksMixin {
+
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;defaultBlockState()Lnet/minecraft/world/level/block/state/BlockState;", ordinal = 1), method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z")
-	public BlockState moreSnow(Block b) {
-		float f = new Random().nextFloat();
-		if (f < 0.5) {
+	private static BlockState moreSnow(Block b) {
+		double d = new Random().nextDouble();
+		if (d < WinterConfig.POWDEREDSNOWCHANCE.get()) {
 			return BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState().setValue(PowderSnowLayerBlock.PERSISTENT, false);
 		}
 		return Blocks.SNOW.defaultBlockState();
 	}
-	
 }
