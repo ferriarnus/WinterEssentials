@@ -5,7 +5,9 @@
   "plugin": "com.ferri.arnus.winteressentials.compat.snowrealmagic.SnowRealMagicPlugin",
   "refmap": "mixins.winteressentials.refmap.json",
   "mixins": [
-    "HooksMixin"
+    "HooksMixin",
+    "ModSnowLayerBlockMixin",
+    "WorldTickHandlerMixin"
   ],
   "minVersion": "0.8.4"
 }

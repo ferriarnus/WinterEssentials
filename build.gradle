@@ -23,7 +23,7 @@ mixin {
     add sourceSets.main, 'mixins.winteressentials.refmap.json'
 }
 
-version = '1.1.1'
+version = '1.1.2'
 group = 'com.ferri.arnus.winteressentials' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'winteressentials'
 
@@ -158,7 +158,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-    compileOnly fg.deobf("curse.maven:snowrealmagic-308663:3592132")
+    compileOnly fg.deobf("curse.maven:snowrealmagic-308663:3633931")
     compileOnly fg.deobf("curse.maven:kiwi-303657:3549979")
 
 }

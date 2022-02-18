@@ -54,7 +54,7 @@ public abstract class ServerLevelMixin extends Level{
 				return l.setBlockAndUpdate(pos, s.setValue(BlockStateProperties.LAYERS, s.getValue(BlockStateProperties.LAYERS) +1));
 			}
 		}
-		if (!Blocks.SNOW.canSurvive(powdersnow, l, pos) || l.getBiome(pos).getPrecipitation().equals(Biome.Precipitation.NONE)) {
+		if (!Blocks.SNOW.defaultBlockState().canSurvive(l, pos) || l.getBiome(pos).getPrecipitation().equals(Biome.Precipitation.NONE)) {
 			return false;
 		}
 		if (!l.getBiome(pos).coldEnoughToSnow(pos)) {

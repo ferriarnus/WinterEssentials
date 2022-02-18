@@ -18,7 +18,6 @@ private static final String PROTOCOL_VERSION = "1";
 			);
 	
 	public static void register() {
-		INSTANCE.registerMessage(0, SeedPacket.class, SeedPacket::encode, SeedPacket::decode, SeedPacket::handle);
-		INSTANCE.registerMessage(1, SnowPacket.class, SnowPacket::encode, SnowPacket::decode, SnowPacket::handle);
+		INSTANCE.registerMessage(0, SnowPacket.class, SnowPacket::encode, SnowPacket::decode, SnowPacket::handle);
 	}
 }
