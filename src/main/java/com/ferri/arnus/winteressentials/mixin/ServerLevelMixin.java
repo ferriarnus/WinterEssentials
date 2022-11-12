@@ -20,6 +20,7 @@ import com.ferri.arnus.winteressentials.network.SnowPacket;
 import com.ferri.arnus.winteressentials.network.WinterChannel;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -38,9 +39,12 @@ import net.minecraftforge.network.PacketDistributor;
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin extends Level{
 
-	protected ServerLevelMixin(WritableLevelData p_46450_, ResourceKey<Level> p_46451_, DimensionType p_46452_,
-			Supplier<ProfilerFiller> p_46453_, boolean p_46454_, boolean p_46455_, long p_46456_) {
-		super(p_46450_, p_46451_, p_46452_, p_46453_, p_46454_, p_46455_, p_46456_);
+	protected ServerLevelMixin(WritableLevelData pLevelData, ResourceKey<Level> pDimension,
+			Holder<DimensionType> pDimensionTypeRegistration, Supplier<ProfilerFiller> pProfiler, boolean pIsClientSide,
+			boolean pIsDebug, long pBiomeZoomSeed, int pMaxChainedNeighborUpdates) {
+		super(pLevelData, pDimension, pDimensionTypeRegistration, pProfiler, pIsClientSide, pIsDebug, pBiomeZoomSeed,
+				pMaxChainedNeighborUpdates);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 1))
@@ -54,10 +58,10 @@ public abstract class ServerLevelMixin extends Level{
 				return l.setBlockAndUpdate(pos, s.setValue(BlockStateProperties.LAYERS, s.getValue(BlockStateProperties.LAYERS) +1));
 			}
 		}
-		if (!Blocks.SNOW.defaultBlockState().canSurvive(l, pos) || l.getBiome(pos).getPrecipitation().equals(Biome.Precipitation.NONE)) {
+		if (!Blocks.SNOW.defaultBlockState().canSurvive(l, pos) || l.getBiome(pos).get().getPrecipitation().equals(Biome.Precipitation.NONE)) {
 			return false;
 		}
-		if (!l.getBiome(pos).coldEnoughToSnow(pos)) {
+		if (!l.getBiome(pos).get().coldEnoughToSnow(pos)) {
 			snow = BlockRegistry.MELTINGSNOWBLOCK.get().defaultBlockState();
 			powdersnow = BlockRegistry.POWDERLAYERBLOCK.get().defaultBlockState().setValue(PowderSnowLayerBlock.PERSISTENT, false);
 		}

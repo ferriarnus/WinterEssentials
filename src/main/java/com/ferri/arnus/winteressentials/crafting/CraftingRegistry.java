@@ -2,23 +2,23 @@ package com.ferri.arnus.winteressentials.crafting;
 
 import com.ferri.arnus.winteressentials.WinterEssentials;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 @EventBusSubscriber(modid = WinterEssentials.MODID, bus = Bus.MOD)
 public class CraftingRegistry {
+	
+	private static final DeferredRegister<RecipeSerializer<?>> SERIALIZER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, WinterEssentials.MODID);
 
-	@SubscribeEvent
-	public static void registerSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-		event.getRegistry().register(name(SnowShoeUpgradeRecipe.SERIALIZER, "snowshoes"));
+	public static void register() {
+		SERIALIZER.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 	
-	private static <T extends IForgeRegistryEntry<? extends T>> T name(T entry, String name) {
-		return entry.setRegistryName(new ResourceLocation(WinterEssentials.MODID, name));
-	}
+	public static final RegistryObject<RecipeSerializer<SnowShoeUpgradeRecipe>> SNOWSHOES = SERIALIZER.register("snowshoes", () -> SnowShoeUpgradeRecipe.SERIALIZER);
+	
 }

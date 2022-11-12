@@ -16,7 +16,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.UpgradeRecipe;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class SnowShoeUpgradeRecipe extends UpgradeRecipe{
 	
@@ -66,7 +65,7 @@ public class SnowShoeUpgradeRecipe extends UpgradeRecipe{
 		return SERIALIZER;
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SnowShoeUpgradeRecipe> {
+	public static class Serializer implements RecipeSerializer<SnowShoeUpgradeRecipe> {
 
 		@Override
 		public SnowShoeUpgradeRecipe fromJson(ResourceLocation p_44103_, JsonObject p_44104_) {
@@ -84,7 +83,6 @@ public class SnowShoeUpgradeRecipe extends UpgradeRecipe{
 
 		@Override
 		public void toNetwork(FriendlyByteBuf p_44101_, SnowShoeUpgradeRecipe p_44102_) {
-			// TODO Auto-generated method stub
 			
 		}
 		

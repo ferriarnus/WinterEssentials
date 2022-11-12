@@ -9,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -121,7 +121,7 @@ public class SnowPouch extends Item{
 		public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) {
 			if (p_41421_.getOrCreateTag().contains("winteressentials:powdersnow")) {
 				String s = p_41421_.getOrCreateTag().getInt("winteressentials:powdersnow") + "";
-				TextComponent compound = new TextComponent(s + " Layers");
+				MutableComponent compound = Component.translatable("%s winteressentials.layers", s);
 				compound.withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC);
 				p_41423_.add(1,compound);
 			}

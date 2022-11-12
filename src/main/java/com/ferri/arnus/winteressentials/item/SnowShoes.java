@@ -2,6 +2,8 @@ package com.ferri.arnus.winteressentials.item;
 
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.ferri.arnus.winteressentials.WinterEssentials;
 import com.ferri.arnus.winteressentials.models.WEModelLayer;
 
@@ -12,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class SnowShoes extends ArmorItem{
 
@@ -22,7 +24,7 @@ public class SnowShoes extends ArmorItem{
 	
 	@Override
 	public void fillItemCategory(CreativeModeTab p_41391_, NonNullList<ItemStack> p_41392_) {
-		if (this.allowdedIn(p_41391_)) {
+		if (this.allowedIn(p_41391_)) {
 			ItemStack s = new ItemStack(this);
 			s.getOrCreateTag().putBoolean(WinterEssentials.MODID +":snowshoe", true);
 			p_41392_.add(s);
@@ -30,12 +32,12 @@ public class SnowShoes extends ArmorItem{
 	}
 	
 	@Override
-	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-		consumer.accept(new IItemRenderProperties() {
+	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+		consumer.accept(new IClientItemExtensions() {
 			@Override
-			public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack,
-					EquipmentSlot armorSlot, A _default) {
-				return (A) WEModelLayer.shoes;
+			public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack,
+					EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
+				return WEModelLayer.shoes;
 			}
 		});
 	}
