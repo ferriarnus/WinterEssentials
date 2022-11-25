@@ -21,7 +21,7 @@ apply plugin: 'org.spongepowered.mixin'
 mixin {
     // MixinGradle Settings
     config "mixins.winteressentials.json"
-    config "mixins.winteressentials.snowrealmagic.json"
+    //config "mixins.winteressentials.snowrealmagic.json"
     
     add sourceSets.main, 'mixins.winteressentials.refmap.json'
 }

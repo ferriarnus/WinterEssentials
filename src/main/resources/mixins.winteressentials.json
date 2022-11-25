@@ -4,12 +4,13 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.winteressentials.refmap.json",
   "mixins": [
-    "PowderSnowBlockMixin",
-    "LivingEntityMixin",
-    "ServerLevelMixin",
-    "SnowAndFreezeFeatureMixin",
+    "BiomeMixin",
     "LevelMixin",
-    "LevelRendererMixin"
+    "LevelRendererMixin",
+    "LivingEntityMixin",
+    "PowderSnowBlockMixin",
+    "ServerLevelMixin",
+    "SnowAndFreezeFeatureMixin"
   ],
   "minVersion": "0.8.4"
 }

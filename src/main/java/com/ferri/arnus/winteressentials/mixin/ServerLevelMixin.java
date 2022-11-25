@@ -44,7 +44,6 @@ public abstract class ServerLevelMixin extends Level{
 			boolean pIsDebug, long pBiomeZoomSeed, int pMaxChainedNeighborUpdates) {
 		super(pLevelData, pDimension, pDimensionTypeRegistration, pProfiler, pIsClientSide, pIsDebug, pBiomeZoomSeed,
 				pMaxChainedNeighborUpdates);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 1))
@@ -94,14 +93,14 @@ public abstract class ServerLevelMixin extends Level{
 	
 	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/network/protocol/game/ClientboundGameEventPacket;STOP_RAINING:Lnet/minecraft/network/protocol/game/ClientboundGameEventPacket$Type;", opcode = Opcodes.GETSTATIC, shift = Shift.AFTER), method = "advanceWeatherCycle()V")
 	public void stopSnowing(CallbackInfo info) {
-		((LevelExtension)(Object)(this)).setSnowing(false);
+		((LevelExtension) this).setSnowing(false);
 		WinterChannel.INSTANCE.send(PacketDistributor.ALL.noArg(), new SnowPacket(false));
 	}
 	
 	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/network/protocol/game/ClientboundGameEventPacket;START_RAINING:Lnet/minecraft/network/protocol/game/ClientboundGameEventPacket$Type;", opcode = Opcodes.GETSTATIC, shift = Shift.AFTER), method = "advanceWeatherCycle()V")
 	public void startSnowing(CallbackInfo info) {
-		if (new Random().nextDouble() < 0.5D) {
-			((LevelExtension)(Object)(this)).setSnowing(true);
+		if (new Random().nextDouble() < WinterConfig.SNOWCHANCE.get()) {
+			((LevelExtension) this).setSnowing(true);
 			WinterChannel.INSTANCE.send(PacketDistributor.ALL.noArg(), new SnowPacket(true));
 		}
 	}
