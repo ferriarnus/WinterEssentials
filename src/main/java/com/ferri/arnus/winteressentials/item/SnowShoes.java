@@ -2,6 +2,10 @@ package com.ferri.arnus.winteressentials.item;
 
 import java.util.function.Consumer;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
 import com.ferri.arnus.winteressentials.WinterEssentials;
@@ -16,20 +20,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = WinterEssentials.MODID, value = Dist.CLIENT)
 public class SnowShoes extends ArmorItem{
 
 	public SnowShoes() {
-		super(WEArmorMaterials.SNOWSHOES, EquipmentSlot.FEET, new Properties().tab(ItemRegistry.WINTERTAB));
+		super(WEArmorMaterials.SNOWSHOES, EquipmentSlot.FEET, new Properties());
 	}
-	
-	@Override
-	public void fillItemCategory(CreativeModeTab p_41391_, NonNullList<ItemStack> p_41392_) {
-		if (this.allowedIn(p_41391_)) {
-			ItemStack s = new ItemStack(this);
-			s.getOrCreateTag().putBoolean(WinterEssentials.MODID +":snowshoe", true);
-			p_41392_.add(s);
-		}
-	}
+
 	
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -41,5 +38,17 @@ public class SnowShoes extends ArmorItem{
 			}
 		});
 	}
+
+	@SubscribeEvent
+	protected void itemTab(CreativeModeTabEvent.BuildContents event) {
+		if (event.getTab() == ItemRegistry.WINTERTAB) {
+			NonNullList<ItemStack> list = NonNullList.create();
+			ItemStack s = new ItemStack(this);
+			s.getOrCreateTag().putBoolean(WinterEssentials.MODID +":snowshoe", true);
+			list.add(s);
+			event.acceptAll(list);
+		}
+	}
+
 		
 }

@@ -2,6 +2,7 @@ package com.ferri.arnus.winteressentials.item;
 
 import java.util.List;
 
+import com.ferri.arnus.winteressentials.WinterEssentials;
 import com.ferri.arnus.winteressentials.block.BlockRegistry;
 import com.ferri.arnus.winteressentials.block.PowderSnowLayerBlock;
 
@@ -19,13 +20,16 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = WinterEssentials.MODID, value = Dist.CLIENT)
 public class SnowPouch extends Item{
 	
 	private int maxSnow = 8*32;
 	
 	public SnowPouch() {
-		super(new Properties().stacksTo(1).tab(ItemRegistry.WINTERTAB));
+		super(new Properties().stacksTo(1));
 	}
 	
 	@Override

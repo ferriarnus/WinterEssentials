@@ -46,7 +46,7 @@ public abstract class ServerLevelMixin extends Level{
 				pMaxChainedNeighborUpdates);
 	}
 
-	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 1))
+	@Redirect(method = "tickChunk(Lnet/minecraft/world/level/chunk/LevelChunk;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 2))
 	public boolean moreSnow(ServerLevel l, BlockPos pos, BlockState state) {
 		double d = l.random.nextDouble();
 		BlockState snow = Blocks.SNOW.defaultBlockState();
